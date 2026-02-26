@@ -1,9 +1,9 @@
 # felizhappyeCard
 Multi-lingual HTML e-card generator (birthdays/holidays) - option to include gift card
 
-Self-contained browser app for creating personalised birthday and holiday e-cards â complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
+Self-contained browser app for creating personalised birthday and holiday e-cards complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
 
-> **Conceived and designed by [@teowaits](https://github.com/teowaits) Â· Vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude) by Anthropic**
+> **Conceived and designed by [@teowaits](https://github.com/teowaits)· Vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude) by Anthropic**
 
 ---
 
@@ -16,13 +16,13 @@ The studio generates a fully **self-contained `.html` e-card file** that recipie
 - **29 languages** for multilingual wish strips (up to 6 selectable), with a filter search box
 - **Custom image** embedded directly in the card
 - **Gift card support** - provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues)
-- Animated confetti (birthday) or âsnowflakes (holidays) on open
+- Animated confetti (birthday) or snowflakes (holidays) on open
 
 ### Builder Features
-- Live **side-by-side preview** â updates instantly as you type or click
+- Live **side-by-side preview** updates instantly as you type or click
 - Language filter/search across 29 languages
-- One-click **Generate Card** â downloads a ready-to-send `.html` file
-- Zero server required â entirely client-side
+- One-click **Generate Card** downloads a ready-to-send `.html` file
+- Zero server required entirely client-side
 
 ---
 
@@ -47,7 +47,7 @@ No `npm install`. No build step. No server.
 
 ```
 felizhappyeCard/
-ecard_builder.html    # The entire app â one self-contained file
+ecard_builder.html    # The entire app one self-contained file
 README.md             # This file
 ```
 
@@ -80,7 +80,7 @@ Each generated card is a **single self-contained `.html` file** containing:
 Languages are defined in the `ALL_LANGS` array in the builder. Each entry has:
 
 ```js
-{ code: 'it', flag: 'ð®ð¹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste' }
+{ code: 'it', flag: '🇮🇹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste' }
 ```
 
 Adding a new language is a one-liner addition to that array.
@@ -89,16 +89,16 @@ Adding a new language is a one-liner addition to that array.
 
 ## Contributing
 
-Contributions are very welcome! This is a personal family project that grew into something more â if you find it useful or want to improve it, please go ahead.
+Contributions are very welcome! This is a personal family project that grew into something more - if you find it useful or want to improve it, please go ahead.
 
 ### Ways to Contribute
 
-- **Add more languages** â edit the `ALL_LANGS` array in `ecard_builder.html`
-- **New occasion types** â e.g. Valentine's Day, graduation, new baby (extend `COPY` and `setOccasion`)
-- **New themes / colour schemes** â the CSS variables make this straightforward
-- **Custom font options** â currently uses Playfair Display + Dancing Script from Google Fonts
-- **Bug fixes** â especially cross-browser compatibility
-- **Accessibility improvements** â keyboard navigation, ARIA labels
+- **Add more languages** edit the `ALL_LANGS` array in `ecard_builder.html`
+- **New occasion types** e.g. Valentine's Day, graduation, new baby (extend `COPY` and `setOccasion`)
+- **New themes / colour schemes** the CSS variables make this straightforward
+- **Custom font options** currently uses Playfair Display + Dancing Script from Google Fonts
+- **Bug fixes** especially cross-browser compatibility
+- **Accessibility improvements** keyboard navigation, ARIA labels
 
 ### How to Submit Changes
 
@@ -111,10 +111,10 @@ Contributions are very welcome! This is a personal family project that grew into
 
 ### Key Technical Notes for Contributors
 
-- **No build toolchain** â everything is plain HTML/CSS/JS. No bundler, no transpiler.
-- **Avoid template literals in `buildCardHTML()`** â the function generates HTML as a string that will be injected into a `<script>` context. Nested backtick template literals and literal `<script>` / `</script>` strings inside JS string values cause browser HTML parser failures. Use string concatenation (`+`) exclusively in that function.
-- **Escape `<script>` inside JS strings** â if you need to emit a `<script>` tag from JS, write it as `'\\x3cscript'` to prevent the browser's HTML scanner from misinterpreting it.
-- **File inputs must be outside their clickable zones** â placing `<input type="file">` inside a clickable `<div>` causes a double file dialog (the input fires natively, then the div's `onclick` fires it again programmatically). Always keep file inputs hidden and outside the zone, triggered via `.click()` only.
+- **No build toolchain** everything is plain HTML/CSS/JS. No bundler, no transpiler.
+- **Avoid template literals in `buildCardHTML()`** the function generates HTML as a string that will be injected into a `<script>` context. Nested backtick template literals and literal `<script>` / `</script>` strings inside JS string values cause browser HTML parser failures. Use string concatenation (`+`) exclusively in that function.
+- **Escape `<script>` inside JS strings** if you need to emit a `<script>` tag from JS, write it as `'\\x3cscript'` to prevent the browser's HTML scanner from misinterpreting it.
+- **File inputs must be outside their clickable zones** placing `<input type="file">` inside a clickable `<div>` causes a double file dialog (the input fires natively, then the div's `onclick` fires it again programmatically). Always keep file inputs hidden and outside the zone, triggered via `.click()` only.
 - **PDF rendering** uses [PDF.js 3.11.174](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js) from cdnjs. The generated card loads it from CDN, so recipients need an internet connection to view embedded PDFs.
 
 ---
@@ -123,7 +123,7 @@ Contributions are very welcome! This is a personal family project that grew into
 
 This project was **conceived, designed, and directed by [@teowaits](https://github.com/teowaits)**. The idea, UX structure, feature set, aesthetic direction, and all design decisions are his.
 
-The code was **vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude)** by Anthropic â an AI assistant that iteratively implemented, debugged, and refined the application through a conversational design session. All bugs were identified and diagnosed collaboratively, with fixes reviewed before being applied.
+The code was **vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude)** by Anthropic - an AI assistant that iteratively implemented, debugged, and refined the application through a conversational design session. All bugs were identified and diagnosed collaboratively, with fixes reviewed before being applied.
 
 ---
 
