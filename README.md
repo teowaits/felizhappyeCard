@@ -1,23 +1,22 @@
 # felizhappyeCard
 Multi-lingual HTML e-card generator (birthdays/holidays) - option to include gift card
 
-# ð Self-contained browser app for creating personalised birthday and holiday e-cards â complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
+Self-contained browser app for creating personalised birthday and holiday e-cards â complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
 
 > **Conceived and designed by [@teowaits](https://github.com/teowaits) Â· Vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude) by Anthropic**
 
 ---
 
-## âš What It Does
+## What It Does
 
-The studio generates a fully **self-contained `.html` e-card file** that recipients can open in any browser â no internet connection required after generation, no apps to install.
+The studio generates a fully **self-contained `.html` e-card file** that recipients can open in any browser with no internet connection required after generation, no apps to install.
 
 ### Card Features
-- ð **Birthday** or ð **Holiday** mode â red banner with coloured confetti for birthdays; deep green banner with falling snowflakes for holidays
-- ð **29 languages** for multilingual wish strips (up to 6 selectable), with a filter search box
-- ðŒïž **Custom image** embedded directly in the card
-- ð **Gift card support** â provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues)
-- âïž Signed in handwriting script: *Matteo, Rocio, Lucia, Elena*
-- ð Animated confetti (birthday) or âïž snowflakes (holidays) on open
+- **Birthday** or **Holiday** mode - red banner with coloured confetti for birthdays; deep green banner with falling snowflakes for holidays
+- **29 languages** for multilingual wish strips (up to 6 selectable), with a filter search box
+- **Custom image** embedded directly in the card
+- **Gift card support** - provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues)
+- Animated confetti (birthday) or âsnowflakes (holidays) on open
 
 ### Builder Features
 - Live **side-by-side preview** â updates instantly as you type or click
@@ -27,7 +26,7 @@ The studio generates a fully **self-contained `.html` e-card file** that recipie
 
 ---
 
-## ð Getting Started
+## Getting Started
 
 ### Use It Right Now
 
@@ -44,19 +43,19 @@ No `npm install`. No build step. No server.
 
 ---
 
-## ðïž Project Structure
+## Project Structure
 
 ```
 felizhappyeCard/
-âââ ecard_builder.html    # The entire app â one self-contained file
-âââ README.md             # This file
+ecard_builder.html    # The entire app â one self-contained file
+README.md             # This file
 ```
 
-The entire application â UI, logic, card generator, PDF renderer integration, and all styles â lives in a single HTML file. This is intentional: the app is designed to be trivially shareable and forkable without any toolchain.
+The entire application - UI, logic, card generator, PDF renderer integration, and all styles - lives in a single HTML file. This is intentional: the app is designed to be trivially shareable and forkable without any toolchain.
 
 ---
 
-## ð ïž How It Works
+## How It Works
 
 ### The Builder (`ecard_builder.html`)
 
@@ -88,7 +87,7 @@ Adding a new language is a one-liner addition to that array.
 
 ---
 
-## ð€ Contributing
+## Contributing
 
 Contributions are very welcome! This is a personal family project that grew into something more â if you find it useful or want to improve it, please go ahead.
 
@@ -120,7 +119,7 @@ Contributions are very welcome! This is a personal family project that grew into
 
 ---
 
-## ð§âð» Authorship & Transparency
+## Authorship & Transparency
 
 This project was **conceived, designed, and directed by [@teowaits](https://github.com/teowaits)**. The idea, UX structure, feature set, aesthetic direction, and all design decisions are his.
 
@@ -128,15 +127,15 @@ The code was **vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/cla
 
 ---
 
-## ð License
+## License
 
-MIT License â feel free to fork, adapt, and build on this for your own family, friends, or projects. A credit back to [@teowaits](https://github.com/teowaits) is appreciated but not required.
+MIT License - feel free to fork, adapt, and build on this for your own family, friends, or projects. A credit back to [@teowaits](https://github.com/teowaits) is appreciated but not required.
 
 ---
 
-## ð The Family
+## The Family
 
-The Cavalleri-Cortes family sends cards from Brooklyn, New York. ðœ
+The Cavalleri-Cortes family sends cards from Brooklyn, New York.
 
-*Besos/Baci â Matteo, Rocio, Lucia, Elena*
+
 
