@@ -15,13 +15,13 @@ The studio generates a fully **self-contained `.html` e-card file** that recipie
 - **Birthday** or **Holiday** mode — custom banner colour, coloured confetti for birthdays, falling snowflakes for holidays
 - **30 languages** for multilingual wish strips (up to 6 selectable), with a filter search box
 - **Custom image** embedded directly in the card — click to upload or drag and drop
-- **Gift card support** — provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues)
+- **Gift card support** — provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues); gift card visual and footer band inherit the banner colour; gift card text (label, button, hint) is in the selected primary language
 - Animated confetti (birthday) or snowflakes (holidays) on open
 
 ### Builder Features
 - Live **side-by-side preview** updates as you type or click
 - Language filter/search across 30 languages
-- **Banner colour grid** — pick from a curated palette; resets to occasion default with one click
+- **Banner colour grid** — pick from a curated palette (Red, Pink, Amber, Purple, Violet, Navy, Sky Blue, Cyan, Turquoise, Forest Green, Silver, or Auto); the chosen colour propagates to the gift card visual and footer band; resets to occasion default with one click
 - **Preview image export** — after generating, capture and download a `.jpg` preview to share alongside the HTML (e.g. inline in an email)
 - One-click **Generate Card** downloads a ready-to-send `.html` file
 - Form state saved to `localStorage` — your work survives a page refresh

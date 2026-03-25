@@ -760,14 +760,14 @@ select option { background: var(--panel); color: var(--text); }
           <div class="color-swatch" data-color="#E63946" style="background:#E63946" onclick="setBannerColor('#E63946')" title="Red"></div>
           <div class="color-swatch" data-color="#D64F9D" style="background:#D64F9D" onclick="setBannerColor('#D64F9D')" title="Pink"></div>
           <div class="color-swatch" data-color="#F4A261" style="background:#F4A261" onclick="setBannerColor('#F4A261')" title="Amber"></div>
-          <div class="color-swatch" data-color="#FFD166" style="background:#FFD166" onclick="setBannerColor('#FFD166')" title="Yellow"></div>
           <div class="color-swatch" data-color="#9B59B6" style="background:#9B59B6" onclick="setBannerColor('#9B59B6')" title="Purple"></div>
           <div class="color-swatch" data-color="#6A4C93" style="background:#6A4C93" onclick="setBannerColor('#6A4C93')" title="Violet"></div>
           <div class="color-swatch" data-color="#1D3557" style="background:#1D3557" onclick="setBannerColor('#1D3557')" title="Navy"></div>
           <div class="color-swatch" data-color="#2E86AB" style="background:#2E86AB" onclick="setBannerColor('#2E86AB')" title="Sky Blue"></div>
+          <div class="color-swatch" data-color="#06B6D4" style="background:#06B6D4" onclick="setBannerColor('#06B6D4')" title="Cyan"></div>
+          <div class="color-swatch" data-color="#1ABC9C" style="background:#1ABC9C" onclick="setBannerColor('#1ABC9C')" title="Turquoise"></div>
           <div class="color-swatch" data-color="#1a6b3c" style="background:#1a6b3c" onclick="setBannerColor('#1a6b3c')" title="Forest Green"></div>
-          <div class="color-swatch" data-color="#2D6A4F" style="background:#2D6A4F" onclick="setBannerColor('#2D6A4F')" title="Dark Teal"></div>
-          <div class="color-swatch" data-color="#5C3317" style="background:#5C3317" onclick="setBannerColor('#5C3317')" title="Brown"></div>
+          <div class="color-swatch" data-color="#A8A8A8" style="background:#A8A8A8" onclick="setBannerColor('#A8A8A8')" title="Silver"></div>
           <div class="color-swatch color-swatch-auto" data-color="" onclick="resetBannerColor()" title="Auto (default for occasion)">↺</div>
         </div>
       </div>
@@ -894,14 +894,14 @@ let capturedPreviewDataUrl = null;
 // ── COPY ──
 const COPY = {
   birthday: {
-    it: { title: 'Buon', accent: 'Compleanno!', emoji: '🎉 Happy Birthday 🎉', subtitle_auto: 'Auguri a' },
-    es: { title: 'Feliz', accent: 'Cumpleaños!', emoji: '🎉 Happy Birthday 🎉', subtitle_auto: 'Felicitaciones a' },
-    en: { title: 'Happy', accent: 'Birthday!', emoji: '🎉 Buon Compleanno 🎉', subtitle_auto: 'Wishing a happy birthday to' },
+    it: { title: 'Buon', accent: 'Compleanno!', emoji: '🎉 Happy Birthday 🎉', subtitle_auto: 'Auguri a', gift_label: 'Un piccolo pensiero per te', gift_btn: 'Apri la tua Gift Card', gift_info: 'Clicka per visualizzare la gift card', gift_no_pdf: 'Nessuna gift card allegata.' },
+    es: { title: 'Feliz', accent: 'Cumpleaños!', emoji: '🎉 Happy Birthday 🎉', subtitle_auto: 'Felicitaciones a', gift_label: 'Un pequeño detalle para ti', gift_btn: 'Abre tu Gift Card', gift_info: 'Haz click para ver tu gift card', gift_no_pdf: 'No hay gift card adjunta.' },
+    en: { title: 'Happy', accent: 'Birthday!', emoji: '🎉 Buon Compleanno 🎉', subtitle_auto: 'Wishing a happy birthday to', gift_label: 'A little something for you', gift_btn: 'Open Your Gift Card', gift_info: 'Tap to view your gift card', gift_no_pdf: 'No gift card PDF was attached.' },
   },
   holidays: {
-    it: { title: 'Buone', accent: 'Feste!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Auguri di Buone Feste a' },
-    es: { title: 'Felices', accent: 'Fiestas!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Felices Fiestas a' },
-    en: { title: 'Happy', accent: 'Holidays!', emoji: '🎄 Buone Feste 🎄', subtitle_auto: 'Season\'s Greetings to' },
+    it: { title: 'Buone', accent: 'Feste!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Auguri di Buone Feste a', gift_label: 'Un piccolo pensiero per te', gift_btn: 'Apri la tua Gift Card', gift_info: 'Clicka per visualizzare la gift card', gift_no_pdf: 'Nessuna gift card allegata.' },
+    es: { title: 'Felices', accent: 'Fiestas!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Felices Fiestas a', gift_label: 'Un pequeño detalle para ti', gift_btn: 'Abre tu Gift Card', gift_info: 'Haz click para ver tu gift card', gift_no_pdf: 'No hay gift card adjunta.' },
+    en: { title: 'Happy', accent: 'Holidays!', emoji: '🎄 Buone Feste 🎄', subtitle_auto: 'Season\'s Greetings to', gift_label: 'A little something for you', gift_btn: 'Open Your Gift Card', gift_info: 'Tap to view your gift card', gift_no_pdf: 'No gift card PDF was attached.' },
   }
 };
 
@@ -1093,21 +1093,21 @@ function updatePreview() {
     ? `<div class="cp-hero"><img src="${state.imageB64}" alt="Card image"><div class="cp-hero-overlay"></div></div>`
     : `<div class="cp-hero"><div class="cp-hero-placeholder">${state.occasion === 'birthday' ? '🎂' : '🎄'}</div></div>`;
 
+  const bannerGrad = getBannerGradient();
   const giftHTML = state.hasGift ? `
     <div class="cp-divider"><div class="cp-divider-line"></div><div style="font-size:14px">🎁</div><div class="cp-divider-line"></div></div>
     <div class="cp-gift">
-      <div class="cp-gift-label">A little something for you</div>
-      <div class="cp-gift-visual">
+      <div class="cp-gift-label">${copy.gift_label}</div>
+      <div class="cp-gift-visual" style="background:${bannerGrad}">
         <div class="cp-fever">${state.giftProvider || 'Gift'}</div>
         <div class="cp-gift-title">GIFT CARD</div>
         <div style="text-align:left"><div class="cp-gift-amount">${state.giftValue || '—'}</div></div>
-        <button class="cp-gift-btn">🎁 Open Your Gift Card</button>
-        <div class="cp-gift-info">Tap button to view your gift card</div>
+        <button class="cp-gift-btn">🎁 ${copy.gift_btn}</button>
+        <div class="cp-gift-info">${copy.gift_info}</div>
       </div>
     </div>
   ` : '';
 
-  const bannerGrad = getBannerGradient();
   document.getElementById('liveCard').innerHTML = `
     <div class="cp-banner" style="background:${bannerGrad}">
       <div class="cp-banner-sub">${subtitleText}</div>
@@ -1117,10 +1117,10 @@ function updatePreview() {
     ${stripItems.length ? `<div class="cp-lang-strip">${stripHTML}</div>` : ''}
     ${heroHTML}
     ${giftHTML}
-    <div class="cp-footer">
+    <div class="cp-footer" style="background:${bannerGrad}">
       <div class="cp-footer-from">
         <strong>Besos/Baci dai Cavalleri-Cortes</strong>
-        <span style="font-size:10px;color:rgba(255,255,255,0.4);">Created by teowaits in Brooklyn, New York</span>
+        <span style="font-size:10px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a> in Brooklyn, New York</span>
       </div>
       <div class="cp-footer-sig">Matteo, Rocio, Lucia, Elena</div>
     </div>
@@ -1362,13 +1362,13 @@ function buildCardHTML() {
   var giftSection = '';
   if (state.hasGift) {
     giftSection = '<div class="divider"><div class="divider-line"></div><div class="divider-icon">&#127873;</div><div class="divider-line"></div></div>'
-      + '<div class="gift-section"><div class="gift-label">A little something for you</div>'
+      + '<div class="gift-section"><div class="gift-label">' + copy.gift_label + '</div>'
       + '<div class="gift-card-visual">'
       + '<div class="fever-logo">' + (safeGiftProvider || 'Gift') + '</div>'
       + '<div class="gift-card-title">GIFT CARD</div>'
       + '<div style="text-align:left"><div class="gift-amount">' + (safeGiftValue || '') + '</div></div>'
-      + '<button class="open-pdf-btn" onclick="openPDF()">&#127873; Open Your Gift Card</button>'
-      + '<div class="redeem-info">Tap to view your gift card</div>'
+      + '<button class="open-pdf-btn" onclick="openPDF()">&#127873; ' + copy.gift_btn + '</button>'
+      + '<div class="redeem-info">' + copy.gift_info + '</div>'
       + '</div></div>';
   }
 
@@ -1430,7 +1430,7 @@ function buildCardHTML() {
       + "container.innerHTML='';container.appendChild(w);}"
       + "function changePage(delta){var n=currentPage+delta;if(n>=1&&n<=totalPages)renderPage(n);}";
   } else {
-    pdfScript = "function openPDF(){alert('No gift card PDF was attached.');}";
+    pdfScript = "function openPDF(){alert('" + copy.gift_no_pdf + "');}";
   }
 
   var pdfLibTag = hasPDF ? '\x3cscript src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">\x3c/script>' : '';
@@ -1493,7 +1493,7 @@ function buildCardHTML() {
     + '.divider-icon{font-size:18px}\n'
     + '.gift-section{padding:8px 40px 36px;text-align:center}\n'
     + '.gift-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#999;margin-bottom:16px}\n'
-    + '.gift-card-visual{background:linear-gradient(135deg,#7b2ff7 0%,#4c1d95 100%);border-radius:16px;padding:28px 32px;max-width:440px;margin:0 auto;box-shadow:0 20px 50px rgba(123,47,247,0.35),0 0 0 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}\n'
+    + '.gift-card-visual{background:' + getBannerGradient() + ';border-radius:16px;padding:28px 32px;max-width:440px;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,0.35),0 0 0 1px rgba(255,255,255,0.1);position:relative;overflow:hidden}\n'
     + ".gift-card-visual::before{content:'';position:absolute;top:-80px;right:-80px;width:220px;height:220px;background:rgba(255,255,255,0.06);border-radius:50%}\n"
     + '.fever-logo{font-weight:700;font-size:22px;color:white;text-align:left;margin-bottom:4px}\n'
     + ".gift-card-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:white;text-align:left;line-height:1;margin-bottom:16px}\n"
@@ -1501,7 +1501,7 @@ function buildCardHTML() {
     + ".open-pdf-btn{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:18px;background:var(--gold);color:var(--blue);font-family:'Lato',sans-serif;font-weight:900;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 28px;border-radius:50px;border:none;cursor:pointer;width:100%;transition:all 0.2s ease;box-shadow:0 6px 20px rgba(244,162,97,0.4)}\n"
     + '.open-pdf-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(244,162,97,0.55);background:#ffb347}\n'
     + '.redeem-info{margin-top:14px;font-size:12px;color:rgba(255,255,255,0.7)}\n'
-    + '.card-footer{background:var(--blue);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}\n'
+    + '.card-footer{background:' + getBannerGradient() + ';padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}\n'
     + '.footer-from{font-size:13px;color:rgba(255,255,255,0.7)}\n'
     + ".footer-from strong{color:var(--gold);font-size:15px;font-family:'Playfair Display',serif;font-style:italic;display:block;margin-bottom:3px}\n"
     + ".footer-sig{font-family:'Dancing Script',cursive;font-size:22px;color:rgba(255,255,255,0.9);letter-spacing:1px}\n"
@@ -1549,7 +1549,7 @@ function buildCardHTML() {
     + '<div class="card-footer">\n'
     + '  <div class="footer-from">\n'
     + '    <strong>Besos/Baci dai Cavalleri-Cortes</strong>\n'
-    + '    <span style="font-size:11px;color:rgba(255,255,255,0.4);">Created by teowaits in Brooklyn, New York</span>\n'
+    + '    <span style="font-size:11px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a> in Brooklyn, New York</span>\n'
     + '  </div>\n'
     + '  <div class="footer-sig">Matteo, Rocio, Lucia, Elena</div>\n'
     + '</div>\n'
