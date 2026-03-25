@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feliz Happy eCard/</title>
+<title>Feliz Happy eCard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -855,6 +855,11 @@ function toggleGift(checkbox) {
 function handleImage(event) {
   const file = event.target.files[0];
   if (!file) return;
+  if (file.size > 20 * 1024 * 1024) {
+    showStatus('Image too large — max 20 MB');
+    event.target.value = '';
+    return;
+  }
   // Reset input so same file can be re-selected if needed
   event.target.value = '';
   const reader = new FileReader();
@@ -865,12 +870,18 @@ function handleImage(event) {
     zone.innerHTML = '<img src="' + state.imageB64 + '" alt="Preview"><div class="upload-overlay"><span>Change Image</span></div>';
     updatePreview();
   };
+  reader.onerror = () => showStatus('Failed to read image file');
   reader.readAsDataURL(file);
 }
 
 function handlePDF(event) {
   const file = event.target.files[0];
   if (!file) return;
+  if (file.size > 15 * 1024 * 1024) {
+    showStatus('PDF too large — max 15 MB');
+    event.target.value = '';
+    return;
+  }
   state.pdfFilename = file.name;
   const reader = new FileReader();
   reader.onload = e => {
@@ -880,6 +891,7 @@ function handlePDF(event) {
     document.getElementById('pdfUpload').classList.add('has-file');
     updatePreview();
   };
+  reader.onerror = () => showStatus('Failed to read PDF file');
   reader.readAsDataURL(file);
 }
 
@@ -969,6 +981,16 @@ async function generateCard() {
   btn.textContent = '✦ Generate Card';
 }
 
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function showStatus(msg) {
   const el = document.getElementById('statusMsg');
   el.textContent = msg;
@@ -979,7 +1001,12 @@ function showStatus(msg) {
 // ── BUILD FINAL HTML ──
 function buildCardHTML() {
   var copy = COPY[state.occasion][state.lang];
-  var subtitleText = state.subtitle || (state.name ? copy.subtitle_auto + ' ' + state.name : '\u2756 From the Cavalleri-Cortes \u2756');
+  var safeName = escapeHTML(state.name);
+  var safeSubtitle = escapeHTML(state.subtitle);
+  var safeGiftProvider = escapeHTML(state.giftProvider);
+  var safeGiftValue = escapeHTML(state.giftValue);
+  var safePdfFilename = escapeHTML(state.pdfFilename || 'giftcard.pdf');
+  var subtitleText = safeSubtitle || (safeName ? copy.subtitle_auto + ' ' + safeName : '\u2756 From the Cavalleri-Cortes \u2756');
   var stripItems = ALL_LANGS.filter(function(l){ return state.selectedLangs.indexOf(l.code) > -1; });
   var imgSrc = state.imageB64 || '';
   var hasPDF = state.hasGift && state.pdfB64;
@@ -991,7 +1018,7 @@ function buildCardHTML() {
   }).join('');
 
   var langStripBlock = stripItemsHTML ? '<div class="lang-strip">' + stripItemsHTML + '</div>' : '';
-  var bannerNameBlock = state.name ? '<div class="banner-name">' + state.name + '</div>' : '';
+  var bannerNameBlock = safeName ? '<div class="banner-name">' + safeName + '</div>' : '';
   var heroSection = imgSrc ? '<div class="hero-image"><img src="' + imgSrc + '" alt="Card image"><div class="image-overlay"></div></div>' : '';
 
   var giftSection = '';
@@ -999,9 +1026,9 @@ function buildCardHTML() {
     giftSection = '<div class="divider"><div class="divider-line"></div><div class="divider-icon">&#127873;</div><div class="divider-line"></div></div>'
       + '<div class="gift-section"><div class="gift-label">A little something for you</div>'
       + '<div class="gift-card-visual">'
-      + '<div class="fever-logo">' + (state.giftProvider || 'Gift') + '</div>'
+      + '<div class="fever-logo">' + (safeGiftProvider || 'Gift') + '</div>'
       + '<div class="gift-card-title">GIFT CARD</div>'
-      + '<div style="text-align:left"><div class="gift-amount">' + (state.giftValue || '') + '</div></div>'
+      + '<div style="text-align:left"><div class="gift-amount">' + (safeGiftValue || '') + '</div></div>'
       + '<button class="open-pdf-btn" onclick="openPDF()">&#127873; Open Your Gift Card</button>'
       + '<div class="redeem-info">Tap to view your gift card</div>'
       + '</div></div>';
@@ -1012,7 +1039,7 @@ function buildCardHTML() {
     pdfModalSection = '<div class="modal-overlay" id="pdfModal" onclick="handleOverlayClick(event)">'
       + '<div class="modal-box" id="modalBox">'
       + '<div class="modal-header">'
-      + '<span>&#127873; ' + (state.giftProvider || 'Gift') + ' Card &mdash; ' + (state.giftValue || '') + '</span>'
+      + '<span>&#127873; ' + (safeGiftProvider || 'Gift') + ' Card &mdash; ' + (safeGiftValue || '') + '</span>'
       + '<button class="modal-close" onclick="closePDF()">&#10005;</button>'
       + '</div>'
       + '<div class="page-nav" id="pageNav">'
@@ -1024,7 +1051,7 @@ function buildCardHTML() {
       + '<div class="pdf-loading"><div class="pdf-loading-spinner"></div>Loading gift card...</div>'
       + '</div>'
       + '<div class="modal-footer">'
-      + '<a class="download-btn" id="downloadBtn" href="#" download="' + (state.pdfFilename || 'giftcard.pdf') + '">&#11015; Download PDF</a>'
+      + '<a class="download-btn" id="downloadBtn" href="#" download="' + safePdfFilename + '">&#11015; Download PDF</a>'
       + '</div></div></div>';
   }
 
@@ -1167,7 +1194,7 @@ function buildCardHTML() {
   var html = '<!DOCTYPE html>\n<html lang="en">\n<head>\n'
     + '<meta charset="UTF-8">\n'
     + '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
-    + '<title>' + copy.title + ' ' + copy.accent + (state.name ? ' ' + state.name : '') + '</title>\n'
+    + '<title>' + copy.title + ' ' + copy.accent + (safeName ? ' ' + safeName : '') + '</title>\n'
     + '<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">\n'
     + pdfLibTag + '\n'
     + '<style>\n' + css + '</style>\n'
