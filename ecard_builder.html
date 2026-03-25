@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feliz Happy eCard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -328,8 +329,16 @@ select option { background: var(--panel); color: var(--text); }
 .switch input:checked + .slider { background: var(--gold); }
 .switch input:checked + .slider::before { transform: translateX(20px); }
 
-.gift-fields { display: none; }
-.gift-fields.visible { display: flex; flex-direction: column; gap: 12px; }
+.gift-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+.gift-fields.visible { max-height: 400px; opacity: 1; }
 
 /* PDF upload */
 .pdf-upload {
@@ -424,13 +433,7 @@ select option { background: var(--panel); color: var(--text); }
   margin-top: 6px;
   position: relative;
 }
-.cp-banner-emoji {
-  font-size: 13px;
-  color: rgba(255,255,255,0.7);
-  letter-spacing: 3px;
-  margin-top: 6px;
-  position: relative;
-}
+
 
 .cp-lang-strip {
   background: #1D3557;
@@ -572,6 +575,138 @@ select option { background: var(--panel); color: var(--text); }
   html, body { overflow: auto; height: auto; }
   .preview-panel { min-height: 500px; }
 }
+
+/* Drag-over state */
+.upload-zone.drag-over {
+  border-color: var(--gold);
+  background: rgba(244,162,97,0.12);
+  transform: scale(1.01);
+}
+
+/* Banner colour grid */
+.color-section { margin-top: 12px; }
+.color-section label { display: block; margin-bottom: 8px; }
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+.color-swatch {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.color-swatch:hover { transform: scale(1.12); }
+.color-swatch.active {
+  border-color: white;
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.color-swatch-auto {
+  background: linear-gradient(135deg, #E63946 50%, #1a6b3c 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: white;
+  font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.color-swatch-auto.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px white;
+}
+
+/* Delivery modal */
+.delivery-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.delivery-overlay.show { display: flex; }
+.delivery-box {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: modalIn 0.3s cubic-bezier(0.23,1,0.32,1) both;
+  text-align: center;
+}
+@keyframes modalIn { from { opacity:0; transform:translateY(24px) scale(0.97) } to { opacity:1; transform:translateY(0) scale(1) } }
+.delivery-check { font-size: 36px; }
+.delivery-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--gold); }
+.delivery-sub { font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 380px; }
+.delivery-preview {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  background: #0a1520;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delivery-preview img { width: 100%; display: block; border-radius: 10px; }
+.delivery-preview .capturing { font-size: 12px; color: var(--muted); padding: 20px; }
+.delivery-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.delivery-dl-btn {
+  background: var(--gold);
+  color: var(--blue);
+  border: none;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.delivery-dl-btn:hover { background: #ffb347; transform: translateY(-1px); }
+.delivery-dl-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.delivery-close-btn {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.delivery-close-btn:hover { color: var(--text); border-color: var(--gold); }
+.delivery-tip {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  line-height: 1.7;
+  text-align: left;
+  width: 100%;
+}
+.delivery-tip strong { color: var(--text); }
 </style>
 </head>
 <body>
@@ -617,7 +752,24 @@ select option { background: var(--panel); color: var(--text); }
 
       <div class="form-group" style="margin-bottom:0">
         <label>Person's Name</label>
-        <input type="text" id="personName" placeholder="e.g. zia Anna" oninput="updatePreview()">
+        <input type="text" id="personName" placeholder="e.g. zia Anna" oninput="schedulePreview()">
+      </div>
+      <div class="color-section">
+        <label>Banner Colour</label>
+        <div class="color-grid" id="colorGrid">
+          <div class="color-swatch" data-color="#E63946" style="background:#E63946" onclick="setBannerColor('#E63946')" title="Red"></div>
+          <div class="color-swatch" data-color="#D64F9D" style="background:#D64F9D" onclick="setBannerColor('#D64F9D')" title="Pink"></div>
+          <div class="color-swatch" data-color="#F4A261" style="background:#F4A261" onclick="setBannerColor('#F4A261')" title="Amber"></div>
+          <div class="color-swatch" data-color="#FFD166" style="background:#FFD166" onclick="setBannerColor('#FFD166')" title="Yellow"></div>
+          <div class="color-swatch" data-color="#9B59B6" style="background:#9B59B6" onclick="setBannerColor('#9B59B6')" title="Purple"></div>
+          <div class="color-swatch" data-color="#6A4C93" style="background:#6A4C93" onclick="setBannerColor('#6A4C93')" title="Violet"></div>
+          <div class="color-swatch" data-color="#1D3557" style="background:#1D3557" onclick="setBannerColor('#1D3557')" title="Navy"></div>
+          <div class="color-swatch" data-color="#2E86AB" style="background:#2E86AB" onclick="setBannerColor('#2E86AB')" title="Sky Blue"></div>
+          <div class="color-swatch" data-color="#1a6b3c" style="background:#1a6b3c" onclick="setBannerColor('#1a6b3c')" title="Forest Green"></div>
+          <div class="color-swatch" data-color="#2D6A4F" style="background:#2D6A4F" onclick="setBannerColor('#2D6A4F')" title="Dark Teal"></div>
+          <div class="color-swatch" data-color="#5C3317" style="background:#5C3317" onclick="setBannerColor('#5C3317')" title="Brown"></div>
+          <div class="color-swatch color-swatch-auto" data-color="" onclick="resetBannerColor()" title="Auto (default for occasion)">↺</div>
+        </div>
       </div>
     </div>
 
@@ -626,7 +778,7 @@ select option { background: var(--panel); color: var(--text); }
       <div class="section-title">Banner Subtitle</div>
       <div class="form-group" style="margin-bottom:0">
         <label>Custom Subtitle (optional)</label>
-        <input type="text" id="bannerSubtitle" placeholder="e.g. Auguri alla zia Svizzera" oninput="updatePreview()">
+        <input type="text" id="bannerSubtitle" placeholder="e.g. Auguri alla zia Svizzera" oninput="schedulePreview()">
         <span style="font-size:10px;color:var(--muted);margin-top:3px;">Leave blank to auto-generate from name</span>
       </div>
     </div>
@@ -642,10 +794,14 @@ select option { background: var(--panel); color: var(--text); }
     <div class="section-card">
       <div class="section-title">Card Image</div>
       <input type="file" id="imgInput" accept="image/*" style="display:none" onchange="handleImage(event)">
-      <div class="upload-zone" id="imgZone" onclick="document.getElementById('imgInput').click()">
+      <div class="upload-zone" id="imgZone"
+        onclick="document.getElementById('imgInput').click()"
+        ondragover="handleDragOver(event,'imgZone')"
+        ondragleave="handleDragLeave('imgZone')"
+        ondrop="handleImageDrop(event)">
         <div class="upload-icon">🖼️</div>
-        <div class="upload-text">Click to upload image</div>
-        <div class="upload-hint">JPG, PNG, WEBP · Any size</div>
+        <div class="upload-text">Click or drag image here</div>
+        <div class="upload-hint">JPG, PNG, WEBP · Max 20 MB</div>
       </div>
     </div>
 
@@ -663,11 +819,11 @@ select option { background: var(--panel); color: var(--text); }
         <div class="form-row">
           <div class="form-group" style="margin-bottom:0">
             <label>Provider</label>
-            <input type="text" id="giftProvider" placeholder="e.g. Fever" oninput="updatePreview()">
+            <input type="text" id="giftProvider" placeholder="e.g. Fever" oninput="schedulePreview()">
           </div>
           <div class="form-group" style="margin-bottom:0">
             <label>Value</label>
-            <input type="text" id="giftValue" placeholder="e.g. 100 CHF" oninput="updatePreview()">
+            <input type="text" id="giftValue" placeholder="e.g. 100 CHF" oninput="schedulePreview()">
           </div>
         </div>
         <div class="form-group" style="margin-bottom:0">
@@ -696,6 +852,25 @@ select option { background: var(--panel); color: var(--text); }
 
 <div class="status-msg" id="statusMsg"></div>
 
+<!-- Delivery modal -->
+<div class="delivery-overlay" id="deliveryOverlay">
+  <div class="delivery-box">
+    <div class="delivery-check">✦</div>
+    <div class="delivery-title">Card Ready to Send</div>
+    <div class="delivery-sub">Your interactive card has been downloaded. Save the preview image below to include when you share it.</div>
+    <div class="delivery-preview" id="deliveryPreview">
+      <div class="capturing">Capturing preview…</div>
+    </div>
+    <div class="delivery-actions">
+      <button class="delivery-dl-btn" id="previewDlBtn" disabled onclick="downloadPreviewImage()">⬇ Download Preview Image</button>
+      <button class="delivery-close-btn" onclick="closeDeliveryModal()">Done</button>
+    </div>
+    <div class="delivery-tip">
+      <strong>How to share:</strong> Attach the <code>.html</code> file to your email — that's the interactive card your recipient opens. Paste or attach the <strong>preview image</strong> inline so they see something beautiful before clicking.
+    </div>
+  </div>
+</div>
+
 <script>
 // ── STATE ──
 const state = {
@@ -709,8 +884,12 @@ const state = {
   giftProvider: '',
   giftValue: '',
   pdfB64: null,
-  pdfFilename: ''
+  pdfFilename: '',
+  bannerColor: ''
 };
+
+let previewTimer = null;
+let capturedPreviewDataUrl = null;
 
 // ── COPY ──
 const COPY = {
@@ -759,8 +938,9 @@ const ALL_LANGS = [
   { code: 'fi', flag: '🇫🇮', label: 'Finnish', birthday: 'Hyvää syntymäpäivää', holidays: 'Hyvää joulua' },
   { code: 'hu', flag: '🇭🇺', label: 'Hungarian', birthday: 'Boldog születésnapot', holidays: 'Boldog Ünnepeket' },
   { code: 'cs', flag: '🇨🇿', label: 'Czech', birthday: 'Vše nejlepší', holidays: 'Veselé svátky' },
-  { code: 'ca', flag: '🏳️', label: 'Catalan', birthday: 'Moltes felicitats', holidays: 'Bones festes' },
-  { code: 'eu', flag: '🏳️', label: 'Basque', birthday: 'Zorionak', holidays: 'Jai Onak' },
+  { code: 'ca', flag: '🏴󠁥󠁳󠁣󠁴󠁿', label: 'Catalan', birthday: 'Moltes felicitats', holidays: 'Bones festes' },
+  { code: 'eu', flag: '🏴󠁥󠁳󠁰󠁶󠁿', label: 'Basque', birthday: 'Zorionak', holidays: 'Jai Onak' },
+  { code: 'sc', flag: '🏴󠁩󠁴󠁳󠁡󠁲󠁿', label: 'Sardinian', birthday: 'A chent\'annos', holidays: 'Augurios' },
 ];
 
 // ── INIT ──
@@ -810,10 +990,20 @@ function setOccasion(val, btn) {
   });
   btn.classList.add('active');
   updateLangPhrases();
+  saveState();
   updatePreview();
 }
 
 function getBannerGradient() {
+  if (state.bannerColor) {
+    // Darken the chosen colour ~25% for the gradient end
+    const hex = state.bannerColor.replace('#', '');
+    const r = Math.max(0, parseInt(hex.slice(0,2), 16) - 60);
+    const g = Math.max(0, parseInt(hex.slice(2,4), 16) - 60);
+    const b = Math.max(0, parseInt(hex.slice(4,6), 16) - 60);
+    const darker = '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+    return 'linear-gradient(135deg, ' + state.bannerColor + ' 0%, ' + darker + ' 100%)';
+  }
   return state.occasion === 'holidays'
     ? 'linear-gradient(135deg, #1a6b3c 0%, #0d4a28 100%)'
     : 'linear-gradient(135deg, #E63946 0%, #c1121f 100%)';
@@ -825,6 +1015,7 @@ function setLang(val, btn) {
     if (b.parentElement === btn.parentElement) b.classList.remove('active');
   });
   btn.classList.add('active');
+  saveState();
   updatePreview();
 }
 
@@ -849,29 +1040,15 @@ function toggleLang(code) {
 function toggleGift(checkbox) {
   state.hasGift = checkbox.checked;
   document.getElementById('giftFields').classList.toggle('visible', checkbox.checked);
+  saveState();
   updatePreview();
 }
 
 function handleImage(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > 20 * 1024 * 1024) {
-    showStatus('Image too large — max 20 MB');
-    event.target.value = '';
-    return;
-  }
-  // Reset input so same file can be re-selected if needed
   event.target.value = '';
-  const reader = new FileReader();
-  reader.onload = e => {
-    state.imageB64 = e.target.result;
-    const zone = document.getElementById('imgZone');
-    zone.classList.add('has-image');
-    zone.innerHTML = '<img src="' + state.imageB64 + '" alt="Preview"><div class="upload-overlay"><span>Change Image</span></div>';
-    updatePreview();
-  };
-  reader.onerror = () => showStatus('Failed to read image file');
-  reader.readAsDataURL(file);
+  processImageFile(file);
 }
 
 function handlePDF(event) {
@@ -936,7 +1113,6 @@ function updatePreview() {
       <div class="cp-banner-sub">${subtitleText}</div>
       <div class="cp-banner-title">${copy.title} <span>${copy.accent}</span></div>
       ${state.name ? `<div class="cp-banner-name">${state.name}</div>` : ''}
-      <div class="cp-banner-emoji">${copy.emoji}</div>
     </div>
     ${stripItems.length ? `<div class="cp-lang-strip">${stripHTML}</div>` : ''}
     ${heroHTML}
@@ -953,14 +1129,19 @@ function updatePreview() {
 
 // ── GENERATE CARD ──
 async function generateCard() {
-  const btn = document.getElementById('genBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Generating...';
-
   state.name = document.getElementById('personName').value.trim();
   state.subtitle = document.getElementById('bannerSubtitle').value.trim();
   state.giftProvider = document.getElementById('giftProvider')?.value.trim() || '';
   state.giftValue = document.getElementById('giftValue')?.value.trim() || '';
+
+  if (!state.name && !state.imageB64) {
+    showStatus('Add a name or image before generating');
+    return;
+  }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating...';
 
   try {
     const html = buildCardHTML();
@@ -969,10 +1150,11 @@ async function generateCard() {
     const a = document.createElement('a');
     const nameSlug = state.name.replace(/\s+/g, '_') || 'card';
     a.href = url;
-    a.download = `CavallerCortes_${state.occasion}_${nameSlug}.html`;
+    a.download = 'CavallerCortes_' + state.occasion + '_' + nameSlug + '.html';
     a.click();
     URL.revokeObjectURL(url);
-    showStatus('✓ Card downloaded!');
+    saveState();
+    showDeliveryModal();
   } catch(err) {
     showStatus('Error: ' + err.message);
   }
@@ -989,6 +1171,162 @@ function escapeHTML(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+// ── DEBOUNCED PREVIEW ──
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(updatePreview, 250);
+}
+
+// ── LOCALSTORAGE ──
+const LS_KEY = 'felizhappy_state';
+function saveState() {
+  const toSave = {
+    occasion: state.occasion,
+    lang: state.lang,
+    name: state.name,
+    subtitle: state.subtitle,
+    selectedLangs: state.selectedLangs,
+    hasGift: state.hasGift,
+    giftProvider: state.giftProvider,
+    giftValue: state.giftValue,
+    bannerColor: state.bannerColor
+  };
+  try { localStorage.setItem(LS_KEY, JSON.stringify(toSave)); } catch(e) {}
+}
+
+function restoreState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    if (!saved) return;
+    Object.assign(state, saved);
+    // Restore text inputs
+    if (state.name) document.getElementById('personName').value = state.name;
+    if (state.subtitle) document.getElementById('bannerSubtitle').value = state.subtitle;
+    if (state.giftProvider) document.getElementById('giftProvider').value = state.giftProvider;
+    if (state.giftValue) document.getElementById('giftValue').value = state.giftValue;
+    // Restore occasion toggle
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      if (btn.textContent.toLowerCase().includes(state.occasion === 'birthday' ? 'birthday' : 'holid')) {
+        btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      const langMap = { it: 'italian', es: 'spanish', en: 'english' };
+      if (langMap[state.lang] && btn.textContent.toLowerCase().includes(langMap[state.lang])) {
+        btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    });
+    // Restore gift toggle
+    if (state.hasGift) {
+      document.getElementById('giftToggle').checked = true;
+      document.getElementById('giftFields').classList.add('visible');
+    }
+    // Restore banner colour swatch
+    markActiveSwatch(state.bannerColor || '');
+  } catch(e) {}
+}
+
+// ── BANNER COLOUR ──
+function markActiveSwatch(val) {
+  document.querySelectorAll('#colorGrid .color-swatch').forEach(s => {
+    s.classList.toggle('active', s.dataset.color === val);
+  });
+}
+
+function setBannerColor(val) {
+  state.bannerColor = val;
+  markActiveSwatch(val);
+  saveState();
+  updatePreview();
+}
+
+function resetBannerColor() {
+  state.bannerColor = '';
+  markActiveSwatch('');
+  saveState();
+  updatePreview();
+}
+
+// ── DRAG AND DROP ──
+function handleDragOver(event, zoneId) {
+  event.preventDefault();
+  document.getElementById(zoneId).classList.add('drag-over');
+}
+
+function handleDragLeave(zoneId) {
+  document.getElementById(zoneId).classList.remove('drag-over');
+}
+
+function handleImageDrop(event) {
+  event.preventDefault();
+  handleDragLeave('imgZone');
+  const file = event.dataTransfer.files[0];
+  if (!file || !file.type.startsWith('image/')) {
+    showStatus('Please drop an image file');
+    return;
+  }
+  processImageFile(file);
+}
+
+function processImageFile(file) {
+  if (file.size > 20 * 1024 * 1024) {
+    showStatus('Image too large — max 20 MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    state.imageB64 = e.target.result;
+    const zone = document.getElementById('imgZone');
+    zone.classList.add('has-image');
+    zone.innerHTML = '<img src="' + state.imageB64 + '" alt="Preview"><div class="upload-overlay"><span>Change Image</span></div>';
+    updatePreview();
+  };
+  reader.onerror = () => showStatus('Failed to read image file');
+  reader.readAsDataURL(file);
+}
+
+// ── DELIVERY MODAL ──
+function closeDeliveryModal() {
+  document.getElementById('deliveryOverlay').classList.remove('show');
+  capturedPreviewDataUrl = null;
+}
+
+function downloadPreviewImage() {
+  if (!capturedPreviewDataUrl) return;
+  const a = document.createElement('a');
+  const nameSlug = state.name.replace(/\s+/g, '_') || 'card';
+  a.href = capturedPreviewDataUrl;
+  a.download = 'CavallerCortes_' + state.occasion + '_' + nameSlug + '_preview.jpg';
+  a.click();
+}
+
+async function showDeliveryModal() {
+  const overlay = document.getElementById('deliveryOverlay');
+  const preview = document.getElementById('deliveryPreview');
+  const dlBtn = document.getElementById('previewDlBtn');
+  capturedPreviewDataUrl = null;
+  dlBtn.disabled = true;
+  preview.innerHTML = '<div class="capturing">Capturing preview…</div>';
+  overlay.classList.add('show');
+
+  try {
+    const canvas = await html2canvas(document.getElementById('liveCard'), {
+      scale: 1.5,
+      useCORS: true,
+      backgroundColor: '#FFF8F0',
+      logging: false
+    });
+    capturedPreviewDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+    const img = document.createElement('img');
+    img.src = capturedPreviewDataUrl;
+    preview.innerHTML = '';
+    preview.appendChild(img);
+    dlBtn.disabled = false;
+  } catch(err) {
+    preview.innerHTML = '<div class="capturing">Preview unavailable</div>';
+  }
 }
 
 function showStatus(msg) {
@@ -1137,13 +1475,12 @@ function buildCardHTML() {
     + '.card-wrapper{position:relative;z-index:1;max-width:680px;width:95%;margin:40px auto}\n'
     + '.card{background:var(--cream);border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.5),0 0 0 4px var(--gold);animation:cardIn 1s cubic-bezier(0.23,1,0.32,1) both}\n'
     + '@keyframes cardIn{from{opacity:0;transform:translateY(60px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}\n'
-    + '.banner{background:' + (isHoliday ? 'linear-gradient(135deg,#1a6b3c 0%,#0d4a28 100%)' : 'linear-gradient(135deg,#E63946 0%,#c1121f 100%)') + ';padding:28px 36px 20px;text-align:center;position:relative;overflow:hidden}\n'
+    + '.banner{background:' + getBannerGradient() + ';padding:28px 36px 20px;text-align:center;position:relative;overflow:hidden}\n'
     + ".banner::before{content:'';position:absolute;inset:-40px;background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,0.04) 10px,rgba(255,255,255,0.04) 20px)}\n"
     + '.banner-from{font-weight:700;letter-spacing:2px;font-size:13px;text-transform:uppercase;color:rgba(255,255,255,0.9);margin-bottom:8px;position:relative;font-style:italic}\n'
     + ".banner-title{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,52px);font-weight:900;color:#fff;line-height:1;position:relative;text-shadow:2px 4px 20px rgba(0,0,0,0.3);letter-spacing:-1px}\n"
     + '.banner-title span{color:var(--gold);font-style:italic}\n'
     + ".banner-name{font-family:'Dancing Script',cursive;font-size:32px;color:rgba(255,255,255,0.95);margin-top:6px;position:relative}\n"
-    + '.banner-sub{margin-top:8px;font-size:13px;color:rgba(255,255,255,0.75);letter-spacing:3px;position:relative}\n'
     + '.lang-strip{background:var(--blue);display:flex;flex-wrap:wrap;justify-content:center}\n'
     + '.lang-item{padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;border-right:1px solid rgba(255,255,255,0.15)}\n'
     + '.lang-item:last-child{border-right:none}\n'
@@ -1205,7 +1542,6 @@ function buildCardHTML() {
     + '  <div class="banner-from">' + subtitleText + '</div>\n'
     + '  <div class="banner-title">' + copy.title + ' <span>' + copy.accent + '</span></div>\n'
     + '  ' + bannerNameBlock + '\n'
-    + '  <div class="banner-sub">' + copy.emoji + '</div>\n'
     + '</div>\n'
     + langStripBlock + '\n'
     + heroSection + '\n'
@@ -1228,6 +1564,7 @@ function buildCardHTML() {
   return html;
 }
 // ── INIT ──
+restoreState();
 initLangChecks();
 updatePreview();
 </script>
