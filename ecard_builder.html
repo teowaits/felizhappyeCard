@@ -738,6 +738,7 @@ select option { background: var(--panel); color: var(--text); }
         <div class="toggle-group">
           <button class="toggle-btn active" onclick="setOccasion('birthday', this)">🎂 Birthday</button>
           <button class="toggle-btn" onclick="setOccasion('holidays', this)">🎄 Holidays</button>
+          <button class="toggle-btn" onclick="setOccasion('mothers_day', this)">🌸 Mother's Day</button>
         </div>
       </div>
 
@@ -902,45 +903,50 @@ const COPY = {
     it: { title: 'Buone', accent: 'Feste!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Auguri di Buone Feste a', gift_label: 'Un piccolo pensiero per te', gift_btn: 'Apri la tua Gift Card', gift_info: 'Clicka per visualizzare la gift card', gift_no_pdf: 'Nessuna gift card allegata.' },
     es: { title: 'Felices', accent: 'Fiestas!', emoji: '🎄 Happy Holidays 🎄', subtitle_auto: 'Felices Fiestas a', gift_label: 'Un pequeño detalle para ti', gift_btn: 'Abre tu Gift Card', gift_info: 'Haz click para ver tu gift card', gift_no_pdf: 'No hay gift card adjunta.' },
     en: { title: 'Happy', accent: 'Holidays!', emoji: '🎄 Buone Feste 🎄', subtitle_auto: 'Season\'s Greetings to', gift_label: 'A little something for you', gift_btn: 'Open Your Gift Card', gift_info: 'Tap to view your gift card', gift_no_pdf: 'No gift card PDF was attached.' },
+  },
+  mothers_day: {
+    it: { title: 'Auguri', accent: 'Mamma!', emoji: '🌸 Festa della Mamma 🌸', subtitle_auto: 'Un abbraccio a', gift_label: 'Un piccolo pensiero per te', gift_btn: 'Apri la tua Gift Card', gift_info: 'Clicka per visualizzare la gift card', gift_no_pdf: 'Nessuna gift card allegata.' },
+    es: { title: 'Feliz', accent: 'Día de la Madre!', emoji: '🌸 Día de la Madre 🌸', subtitle_auto: 'Un abrazo para', gift_label: 'Un pequeño detalle para ti', gift_btn: 'Abre tu Gift Card', gift_info: 'Haz click para ver tu gift card', gift_no_pdf: 'No hay gift card adjunta.' },
+    en: { title: 'Happy', accent: 'Mother\'s Day!', emoji: '🌸 Happy Mother\'s Day 🌸', subtitle_auto: 'Celebrating', gift_label: 'A little something for you', gift_btn: 'Open Your Gift Card', gift_info: 'Tap to view your gift card', gift_no_pdf: 'No gift card PDF was attached.' },
   }
 };
 
 const ALL_LANGS = [
   // Romance / Latin
-  { code: 'it', flag: '🇮🇹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste' },
-  { code: 'es', flag: '🇪🇸', label: 'Spanish', birthday: 'Feliz Cumpleaños', holidays: 'Felices Fiestas' },
-  { code: 'fr', flag: '🇫🇷', label: 'French', birthday: 'Joyeux Anniversaire', holidays: 'Joyeuses Fêtes' },
-  { code: 'pt', flag: '🇧🇷', label: 'Portuguese', birthday: 'Feliz Aniversário', holidays: 'Boas Festas' },
-  { code: 'ro', flag: '🇷🇴', label: 'Romanian', birthday: 'La mulți ani', holidays: 'Sărbători fericite' },
+  { code: 'it', flag: '🇮🇹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste', mothers_day: 'Auguri Mamma' },
+  { code: 'es', flag: '🇪🇸', label: 'Spanish', birthday: 'Feliz Cumpleaños', holidays: 'Felices Fiestas', mothers_day: 'Feliz Día de la Madre' },
+  { code: 'fr', flag: '🇫🇷', label: 'French', birthday: 'Joyeux Anniversaire', holidays: 'Joyeuses Fêtes', mothers_day: 'Bonne Fête des Mères' },
+  { code: 'pt', flag: '🇧🇷', label: 'Portuguese', birthday: 'Feliz Aniversário', holidays: 'Boas Festas', mothers_day: 'Feliz Dia das Mães' },
+  { code: 'ro', flag: '🇷🇴', label: 'Romanian', birthday: 'La mulți ani', holidays: 'Sărbători fericite', mothers_day: 'La mulți ani, Mamă' },
   // Germanic
-  { code: 'en', flag: '🇺🇸', label: 'English', birthday: 'Happy Birthday', holidays: 'Happy Holidays' },
-  { code: 'de', flag: '🇩🇪', label: 'German', birthday: 'Herzlichen Glückwunsch', holidays: 'Frohe Feiertage' },
-  { code: 'ch', flag: '🇨🇭', label: 'Swiss German', birthday: 'Alles Gueti zum Geburtstag', holidays: 'Frohe Festtage' },
-  { code: 'nl', flag: '🇳🇱', label: 'Dutch', birthday: 'Gefeliciteerd', holidays: 'Prettige Feestdagen' },
-  { code: 'sv', flag: '🇸🇪', label: 'Swedish', birthday: 'Grattis på födelsedagen', holidays: 'God Jul' },
-  { code: 'no', flag: '🇳🇴', label: 'Norwegian', birthday: 'Gratulerer med dagen', holidays: 'God Jul' },
-  { code: 'da', flag: '🇩🇰', label: 'Danish', birthday: 'Tillykke med fødselsdagen', holidays: 'Glædelig Jul' },
+  { code: 'en', flag: '🇺🇸', label: 'English', birthday: 'Happy Birthday', holidays: 'Happy Holidays', mothers_day: 'Happy Mother\'s Day' },
+  { code: 'de', flag: '🇩🇪', label: 'German', birthday: 'Herzlichen Glückwunsch', holidays: 'Frohe Feiertage', mothers_day: 'Alles Liebe zum Muttertag' },
+  { code: 'ch', flag: '🇨🇭', label: 'Swiss German', birthday: 'Alles Gueti zum Geburtstag', holidays: 'Frohe Festtage', mothers_day: 'Alles Liebs zum Muettertag' },
+  { code: 'nl', flag: '🇳🇱', label: 'Dutch', birthday: 'Gefeliciteerd', holidays: 'Prettige Feestdagen', mothers_day: 'Fijne Moederdag' },
+  { code: 'sv', flag: '🇸🇪', label: 'Swedish', birthday: 'Grattis på födelsedagen', holidays: 'God Jul', mothers_day: 'Glad Morsdag' },
+  { code: 'no', flag: '🇳🇴', label: 'Norwegian', birthday: 'Gratulerer med dagen', holidays: 'God Jul', mothers_day: 'God Morsdag' },
+  { code: 'da', flag: '🇩🇰', label: 'Danish', birthday: 'Tillykke med fødselsdagen', holidays: 'Glædelig Jul', mothers_day: 'Glædelig Morsdag' },
   // Slavic
-  { code: 'pl', flag: '🇵🇱', label: 'Polish', birthday: 'Wszystkiego najlepszego', holidays: 'Wesołych Świąt' },
-  { code: 'ru', flag: '🇷🇺', label: 'Russian', birthday: 'С днём рождения', holidays: 'С праздником' },
-  { code: 'uk', flag: '🇺🇦', label: 'Ukrainian', birthday: 'З днем народження', holidays: 'Зі святами' },
+  { code: 'pl', flag: '🇵🇱', label: 'Polish', birthday: 'Wszystkiego najlepszego', holidays: 'Wesołych Świąt', mothers_day: 'Wszystkiego najlepszego, Mamo' },
+  { code: 'ru', flag: '🇷🇺', label: 'Russian', birthday: 'С днём рождения', holidays: 'С праздником', mothers_day: 'С Днём матери' },
+  { code: 'uk', flag: '🇺🇦', label: 'Ukrainian', birthday: 'З днем народження', holidays: 'Зі святами', mothers_day: 'З Днем матері' },
   // Middle East & Asia
-  { code: 'ar', flag: '🇸🇦', label: 'Arabic', birthday: 'عيد ميلاد سعيد', holidays: 'أعياد سعيدة' },
-  { code: 'he', flag: '🇮🇱', label: 'Hebrew', birthday: 'יום הולדת שמח', holidays: 'חג שמח' },
-  { code: 'tr', flag: '🇹🇷', label: 'Turkish', birthday: 'İyi ki doğdun', holidays: 'İyi Bayramlar' },
-  { code: 'fa', flag: '🇮🇷', label: 'Farsi', birthday: 'تولدت مبارک', holidays: 'اعیاد مبارک' },
-  { code: 'zh', flag: '🇨🇳', label: 'Chinese', birthday: '生日快乐', holidays: '节日快乐' },
-  { code: 'ja', flag: '🇯🇵', label: 'Japanese', birthday: 'お誕生日おめでとう', holidays: 'よいお年を' },
-  { code: 'ko', flag: '🇰🇷', label: 'Korean', birthday: '생일 축하해요', holidays: '즐거운 명절 보내세요' },
-  { code: 'hi', flag: '🇮🇳', label: 'Hindi', birthday: 'जन्मदिन मुबारक', holidays: 'शुभ पर्व' },
+  { code: 'ar', flag: '🇸🇦', label: 'Arabic', birthday: 'عيد ميلاد سعيد', holidays: 'أعياد سعيدة', mothers_day: 'كل عام وأنت بخير يا أمي' },
+  { code: 'he', flag: '🇮🇱', label: 'Hebrew', birthday: 'יום הולדת שמח', holidays: 'חג שמח', mothers_day: 'יום אם שמח' },
+  { code: 'tr', flag: '🇹🇷', label: 'Turkish', birthday: 'İyi ki doğdun', holidays: 'İyi Bayramlar', mothers_day: 'Anneler Günün Kutlu Olsun' },
+  { code: 'fa', flag: '🇮🇷', label: 'Farsi', birthday: 'تولدت مبارک', holidays: 'اعیاد مبارک', mothers_day: 'روز مادر مبارک' },
+  { code: 'zh', flag: '🇨🇳', label: 'Chinese', birthday: '生日快乐', holidays: '节日快乐', mothers_day: '母亲节快乐' },
+  { code: 'ja', flag: '🇯🇵', label: 'Japanese', birthday: 'お誕生日おめでとう', holidays: 'よいお年を', mothers_day: '母の日おめでとう' },
+  { code: 'ko', flag: '🇰🇷', label: 'Korean', birthday: '생일 축하해요', holidays: '즐거운 명절 보내세요', mothers_day: '어머니날 축하해요' },
+  { code: 'hi', flag: '🇮🇳', label: 'Hindi', birthday: 'जन्मदिन मुबारक', holidays: 'शुभ पर्व', mothers_day: 'मातृ दिवस की शुभकामनाएं' },
   // Other
-  { code: 'el', flag: '🇬🇷', label: 'Greek', birthday: 'Χρόνια πολλά', holidays: 'Καλές γιορτές' },
-  { code: 'fi', flag: '🇫🇮', label: 'Finnish', birthday: 'Hyvää syntymäpäivää', holidays: 'Hyvää joulua' },
-  { code: 'hu', flag: '🇭🇺', label: 'Hungarian', birthday: 'Boldog születésnapot', holidays: 'Boldog Ünnepeket' },
-  { code: 'cs', flag: '🇨🇿', label: 'Czech', birthday: 'Vše nejlepší', holidays: 'Veselé svátky' },
-  { code: 'ca', flag: '🏴󠁥󠁳󠁣󠁴󠁿', label: 'Catalan', birthday: 'Moltes felicitats', holidays: 'Bones festes' },
-  { code: 'eu', flag: '🏴󠁥󠁳󠁰󠁶󠁿', label: 'Basque', birthday: 'Zorionak', holidays: 'Jai Onak' },
-  { code: 'sc', flag: '🏴󠁩󠁴󠁳󠁡󠁲󠁿', label: 'Sardinian', birthday: 'A chent\'annos', holidays: 'Augurios' },
+  { code: 'el', flag: '🇬🇷', label: 'Greek', birthday: 'Χρόνια πολλά', holidays: 'Καλές γιορτές', mothers_day: 'Χρόνια πολλά, Μαμά' },
+  { code: 'fi', flag: '🇫🇮', label: 'Finnish', birthday: 'Hyvää syntymäpäivää', holidays: 'Hyvää joulua', mothers_day: 'Hyvää äitienpäivää' },
+  { code: 'hu', flag: '🇭🇺', label: 'Hungarian', birthday: 'Boldog születésnapot', holidays: 'Boldog Ünnepeket', mothers_day: 'Boldog Anyák napját' },
+  { code: 'cs', flag: '🇨🇿', label: 'Czech', birthday: 'Vše nejlepší', holidays: 'Veselé svátky', mothers_day: 'Vše nejlepší ke dni matek' },
+  { code: 'ca', flag: '🏴󠁥󠁳󠁣󠁴󠁿', label: 'Catalan', birthday: 'Moltes felicitats', holidays: 'Bones festes', mothers_day: 'Feliç Dia de la Mare' },
+  { code: 'eu', flag: '🏴󠁥󠁳󠁰󠁶󠁿', label: 'Basque', birthday: 'Zorionak', holidays: 'Jai Onak', mothers_day: 'Ama Eguna Zorionak' },
+  { code: 'sc', flag: '🏴󠁩󠁴󠁳󠁡󠁲󠁿', label: 'Sardinian', birthday: 'A chent\'annos', holidays: 'Augurios', mothers_day: 'Bona Festa de sa Mama' },
 ];
 
 // ── INIT ──
@@ -954,7 +960,7 @@ function initLangChecks() {
       + '<div class="lang-check-box">' + (sel ? '✓' : '') + '</div>'
       + '<div>'
       + '<div class="lang-check-label">' + l.flag + ' ' + l.label + '</div>'
-      + '<div class="lang-check-phrase" id="phrase-' + l.code + '">' + (state.occasion === 'birthday' ? l.birthday : l.holidays) + '</div>'
+      + '<div class="lang-check-phrase" id="phrase-' + l.code + '">' + (l[state.occasion] || l.birthday) + '</div>'
       + '</div></div>';
   }).join('');
   updateLangCounter();
@@ -978,7 +984,7 @@ function filterLangs(query) {
 function updateLangPhrases() {
   ALL_LANGS.forEach(l => {
     const el = document.getElementById('phrase-' + l.code);
-    if (el) el.textContent = state.occasion === 'birthday' ? l.birthday : l.holidays;
+    if (el) el.textContent = l[state.occasion] || l.birthday;
   });
 }
 
@@ -1006,6 +1012,8 @@ function getBannerGradient() {
   }
   return state.occasion === 'holidays'
     ? 'linear-gradient(135deg, #1a6b3c 0%, #0d4a28 100%)'
+    : state.occasion === 'mothers_day'
+    ? 'linear-gradient(135deg, #F472B6 0%, #DB2777 100%)'
     : 'linear-gradient(135deg, #E63946 0%, #c1121f 100%)';
 }
 
@@ -1080,18 +1088,18 @@ function updatePreview() {
   state.giftValue = document.getElementById('giftValue')?.value.trim() || '';
 
   const copy = COPY[state.occasion][state.lang];
-  const subtitleText = state.subtitle || (state.name ? copy.subtitle_auto + ' ' + state.name : '✦ From the Cavalleri-Cortes ✦');
+  const subtitleText = state.subtitle || (state.name ? copy.subtitle_auto + ' ' + state.name : '✦ With Love ✦');
 
   const stripItems = ALL_LANGS.filter(l => state.selectedLangs.includes(l.code));
   const stripHTML = stripItems.map((l, i) => {
-    const phrase = state.occasion === 'birthday' ? l.birthday : l.holidays;
+    const phrase = l[state.occasion] || l.birthday;
     const colors = ['#F4A261','#a8d8ea','#ffd6a5','#b7e4c7','#f5a0b5','#c9b1ff'];
     return `<div class="cp-lang-item" style="color:${colors[i % colors.length]}">${l.flag} ${phrase}</div>`;
   }).join('');
 
   const heroHTML = state.imageB64
     ? `<div class="cp-hero"><img src="${state.imageB64}" alt="Card image"><div class="cp-hero-overlay"></div></div>`
-    : `<div class="cp-hero"><div class="cp-hero-placeholder">${state.occasion === 'birthday' ? '🎂' : '🎄'}</div></div>`;
+    : `<div class="cp-hero"><div class="cp-hero-placeholder">${state.occasion === 'birthday' ? '🎂' : state.occasion === 'mothers_day' ? '🌸' : '🎄'}</div></div>`;
 
   const bannerGrad = getBannerGradient();
   const giftHTML = state.hasGift ? `
@@ -1119,10 +1127,10 @@ function updatePreview() {
     ${giftHTML}
     <div class="cp-footer" style="background:${bannerGrad}">
       <div class="cp-footer-from">
-        <strong>Besos/Baci dai Cavalleri-Cortes</strong>
-        <span style="font-size:10px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a> in Brooklyn, New York</span>
+        <strong>With Love</strong>
+        <span style="font-size:10px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a></span>
       </div>
-      <div class="cp-footer-sig">Matteo, Rocio, Lucia, Elena</div>
+      <div class="cp-footer-sig"></div>
     </div>
   `;
 }
@@ -1150,7 +1158,7 @@ async function generateCard() {
     const a = document.createElement('a');
     const nameSlug = state.name.replace(/\s+/g, '_') || 'card';
     a.href = url;
-    a.download = 'CavallerCortes_' + state.occasion + '_' + nameSlug + '.html';
+    a.download = 'ecard_' + state.occasion + '_' + nameSlug + '.html';
     a.click();
     URL.revokeObjectURL(url);
     saveState();
@@ -1208,7 +1216,8 @@ function restoreState() {
     if (state.giftValue) document.getElementById('giftValue').value = state.giftValue;
     // Restore occasion toggle
     document.querySelectorAll('.toggle-btn').forEach(btn => {
-      if (btn.textContent.toLowerCase().includes(state.occasion === 'birthday' ? 'birthday' : 'holid')) {
+      const occasionKeyword = state.occasion === 'birthday' ? 'birthday' : state.occasion === 'mothers_day' ? 'mother' : 'holid';
+      if (btn.textContent.toLowerCase().includes(occasionKeyword)) {
         btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       }
@@ -1298,7 +1307,7 @@ function downloadPreviewImage() {
   const a = document.createElement('a');
   const nameSlug = state.name.replace(/\s+/g, '_') || 'card';
   a.href = capturedPreviewDataUrl;
-  a.download = 'CavallerCortes_' + state.occasion + '_' + nameSlug + '_preview.jpg';
+  a.download = 'ecard_' + state.occasion + '_' + nameSlug + '_preview.jpg';
   a.click();
 }
 
@@ -1344,14 +1353,14 @@ function buildCardHTML() {
   var safeGiftProvider = escapeHTML(state.giftProvider);
   var safeGiftValue = escapeHTML(state.giftValue);
   var safePdfFilename = escapeHTML(state.pdfFilename || 'giftcard.pdf');
-  var subtitleText = safeSubtitle || (safeName ? copy.subtitle_auto + ' ' + safeName : '\u2756 From the Cavalleri-Cortes \u2756');
+  var subtitleText = safeSubtitle || (safeName ? copy.subtitle_auto + ' ' + safeName : '\u2756 With Love \u2756');
   var stripItems = ALL_LANGS.filter(function(l){ return state.selectedLangs.indexOf(l.code) > -1; });
   var imgSrc = state.imageB64 || '';
   var hasPDF = state.hasGift && state.pdfB64;
 
   var langColors = ['#F4A261','#a8d8ea','#ffd6a5','#b7e4c7','#f5a0b5','#c9b1ff'];
   var stripItemsHTML = stripItems.map(function(l, i) {
-    var phrase = state.occasion === 'birthday' ? l.birthday : l.holidays;
+    var phrase = l[state.occasion] || l.birthday;
     return '<div class="lang-item" style="color:' + langColors[i % langColors.length] + '">' + l.flag + ' ' + phrase + '</div>';
   }).join('');
 
@@ -1435,8 +1444,7 @@ function buildCardHTML() {
 
   var pdfLibTag = hasPDF ? '\x3cscript src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js">\x3c/script>' : '';
 
-  var isHoliday = state.occasion === 'holidays';
-  var confettiScript = isHoliday
+  var confettiScript = state.occasion === 'holidays'
     // Snowflake confetti for holidays
     ? "var snowflakes=['\u2744','\u2745','\u2746','\u2731','\u2022','\u2019'];"
     + "var cont=document.getElementById('confetti');"
@@ -1447,6 +1455,27 @@ function buildCardHTML() {
     + "el.style.left=Math.random()*100+'vw';"
     + "el.style.fontSize=(Math.random()*16+10)+'px';"
     + "el.style.color='rgba(255,255,255,'+(Math.random()*0.5+0.4)+')';"
+    + "el.style.animationDuration=(Math.random()*6+5)+'s';"
+    + "el.style.animationDelay=(Math.random()*8)+'s';"
+    + "el.style.background='none';"
+    + "el.style.borderRadius='0';"
+    + "el.style.width='auto';el.style.height='auto';"
+    + "cont.appendChild(el);}"
+    // Petal confetti for Mother's Day
+    : state.occasion === 'mothers_day'
+    ? "var heartColors=['#E63946','#F472B6','#A855F7'];"
+    + "var cont=document.getElementById('confetti');"
+    + "for(var i=0;i<80;i++){"
+    + "var el=document.createElement('div');"
+    + "el.className='confetto';"
+    + "if(Math.random()<0.65){"
+    + "el.textContent='\ud83c\udf38';"
+    + "}else{"
+    + "el.textContent='\u2665';"
+    + "el.style.color=heartColors[Math.floor(Math.random()*heartColors.length)];"
+    + "}"
+    + "el.style.left=Math.random()*100+'vw';"
+    + "el.style.fontSize=(Math.random()*14+10)+'px';"
     + "el.style.animationDuration=(Math.random()*6+5)+'s';"
     + "el.style.animationDelay=(Math.random()*8)+'s';"
     + "el.style.background='none';"
@@ -1548,10 +1577,10 @@ function buildCardHTML() {
     + giftSection + '\n'
     + '<div class="card-footer">\n'
     + '  <div class="footer-from">\n'
-    + '    <strong>Besos/Baci dai Cavalleri-Cortes</strong>\n'
-    + '    <span style="font-size:11px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a> in Brooklyn, New York</span>\n'
+    + '    <strong>With Love</strong>\n'
+    + '    <span style="font-size:11px;color:rgba(255,255,255,0.4);">Created by <a href="https://github.com/teowaits/felizhappyeCard" target="_blank" style="color:rgba(255,255,255,0.4);text-decoration:underline;">teowaits</a></span>\n'
     + '  </div>\n'
-    + '  <div class="footer-sig">Matteo, Rocio, Lucia, Elena</div>\n'
+    + '  <div class="footer-sig"></div>\n'
     + '</div>\n'
     + '</div></div>\n'
     + pdfModalSection + '\n'

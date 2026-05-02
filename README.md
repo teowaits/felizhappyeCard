@@ -1,7 +1,7 @@
 # felizhappyeCard
-Multi-lingual HTML e-card generator (birthdays/holidays) - option to include gift card
+Multi-lingual HTML e-card generator (birthdays / holidays / Mother's Day) - option to include gift card
 
-Self-contained browser app for creating personalised birthday and holiday e-cards complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
+Self-contained browser app for creating personalised e-cards complete with multilingual wishes, custom images, embedded gift cards, and animated confetti. No server, no dependencies, no installation. Just open the HTML file and send.
 
 > **Conceived and designed by [@teowaits](https://github.com/teowaits) · Vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/claude) by Anthropic**
 
@@ -12,11 +12,11 @@ Self-contained browser app for creating personalised birthday and holiday e-card
 The studio generates a fully **self-contained `.html` e-card file** that recipients can open in any browser with no internet connection required after generation, no apps to install.
 
 ### Card Features
-- **Birthday** or **Holiday** mode — custom banner colour, coloured confetti for birthdays, falling snowflakes for holidays
+- **Birthday**, **Holiday**, or **Mother's Day** mode — custom banner colour per occasion (red / green / pink auto-defaults); coloured confetti for birthdays, falling snowflakes for holidays, pink flowers and coloured hearts for Mother's Day
 - **30 languages** for multilingual wish strips (up to 6 selectable), with a filter search box
 - **Custom image** embedded directly in the card — click to upload or drag and drop
 - **Gift card support** — provider name, value, and a full PDF rendered page-by-page inside the card using PDF.js (no white-page iframe issues); gift card visual and footer band inherit the banner colour; gift card text (label, button, hint) is in the selected primary language
-- Animated confetti (birthday) or snowflakes (holidays) on open
+- Animated confetti (birthday), snowflakes (holidays), or falling flowers and hearts (Mother's Day) on open
 
 ### Builder Features
 - Live **side-by-side preview** updates as you type or click
@@ -67,6 +67,7 @@ No `npm install`. No build step. No server.
 felizhappyeCard/
 ecard_builder.html    # The entire app — one self-contained file
 README.md             # This file
+LICENSE
 ```
 
 The entire application — UI, logic, card generator, PDF renderer integration, and all styles — lives in a single HTML file. This is intentional: the app is designed to be trivially shareable and forkable without any toolchain.
@@ -98,10 +99,10 @@ Each generated card is a **single self-contained `.html` file** containing:
 Languages are defined in the `ALL_LANGS` array in the builder. Each entry has:
 
 ```js
-{ code: 'it', flag: '🇮🇹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste' }
+{ code: 'it', flag: '🇮🇹', label: 'Italian', birthday: 'Buon Compleanno', holidays: 'Buone Feste', mothers_day: 'Auguri Mamma' }
 ```
 
-Adding a new language is a one-liner addition to that array. Regional subdivision flags (Catalan 🏴󠁥󠁳󠁣󠁴󠁿, Basque 🏴󠁥󠁳󠁰󠁶󠁿, Sardinian 🏴󠁩󠁴󠁳󠁡󠁲󠁿) use Unicode tag sequences and render on macOS/iOS and Windows 11+.
+Adding a new language is a one-liner addition to that array (include all three occasion keys). Regional subdivision flags (Catalan 🏴󠁥󠁳󠁣󠁴󠁿, Basque 🏴󠁥󠁳󠁰󠁶󠁿, Sardinian 🏴󠁩󠁴󠁳󠁡󠁲󠁿) use Unicode tag sequences and render on macOS/iOS and Windows 11+.
 
 **Currently supported languages (30):**
 Italian · Spanish · French · Portuguese · Romanian · English · German · Swiss German · Dutch · Swedish · Norwegian · Danish · Polish · Russian · Ukrainian · Arabic · Hebrew · Turkish · Farsi · Chinese · Japanese · Korean · Hindi · Greek · Finnish · Hungarian · Czech · Catalan · Basque · Sardinian
@@ -115,7 +116,7 @@ Contributions are very welcome! This is a personal family project that grew into
 ### Ways to Contribute
 
 - **Add more languages** — edit the `ALL_LANGS` array in `ecard_builder.html`
-- **New occasion types** — e.g. Valentine's Day, graduation, new baby (extend `COPY` and `setOccasion`)
+- **New occasion types** — e.g. Valentine's Day, graduation, new baby (extend `COPY`, `ALL_LANGS`, and `setOccasion`)
 - **New banner colours** — add swatches to the `#colorGrid` in the HTML
 - **Custom font options** — currently uses Playfair Display + Dancing Script from Google Fonts
 - **Bug fixes** — especially cross-browser compatibility
