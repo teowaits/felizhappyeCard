@@ -38,8 +38,8 @@ When you click **Generate Card** two things happen:
 
 ```
 Email workflow:
-  Attach  →  CavallerCortes_birthday_Anna.html   (the interactive card)
-  Inline  →  CavallerCortes_birthday_Anna_preview.jpg  (so they see it before opening)
+  Attach  →  ecard_birthday_Anna.html         (the interactive card)
+  Inline  →  ecard_birthday_Anna_preview.jpg  (so they see it before opening)
 ```
 
 ---
@@ -155,8 +155,3 @@ The code was **vibe coded with [Claude Sonnet 4.6](https://www.anthropic.com/cla
 
 MIT License — feel free to fork, adapt, and build on this for your own family, friends, or projects. A credit back to [@teowaits](https://github.com/teowaits) is appreciated but not required.
 
----
-
-## The Family
-
-The Cavalleri-Cortes family sends cards from Brooklyn, New York.
