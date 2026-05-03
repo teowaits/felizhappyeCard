@@ -829,8 +829,8 @@ select option { background: var(--panel); color: var(--text); }
         </div>
         <div class="form-group" style="margin-bottom:0">
           <label>Gift Card PDF</label>
+          <input type="file" id="pdfInput" accept="application/pdf" style="display:none" onchange="handlePDF(event)">
           <div class="pdf-upload" id="pdfUpload" onclick="document.getElementById('pdfInput').click()">
-            <input type="file" id="pdfInput" accept="application/pdf" onchange="handlePDF(event)">
             <span id="pdfLabel">📄 Click to upload PDF</span>
           </div>
         </div>
@@ -1414,10 +1414,10 @@ function buildCardHTML() {
       + "async function loadPDF(){try{"
       + "var raw=atob(PDF_B64),arr=new Uint8Array(raw.length);"
       + "for(var i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i);"
-      + "pdfDoc=await pdfjsLib.getDocument({data:arr}).promise;"
-      + "totalPages=pdfDoc.numPages;pdfLoaded=true;"
       + "var blob=new Blob([arr],{type:'application/pdf'});"
       + "document.getElementById('downloadBtn').href=URL.createObjectURL(blob);"
+      + "pdfDoc=await pdfjsLib.getDocument({data:arr}).promise;"
+      + "totalPages=pdfDoc.numPages;pdfLoaded=true;"
       + "if(totalPages>1)document.getElementById('pageNav').style.display='flex';"
       + "document.getElementById('nextBtn').disabled=totalPages<=1;"
       + "await renderPage(1);"
