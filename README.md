@@ -23,7 +23,7 @@ The studio generates a fully **self-contained `.html` e-card file** that recipie
 - Language filter/search across 30 languages
 - **Banner colour grid** — pick from a curated palette (Red, Pink, Amber, Purple, Violet, Navy, Sky Blue, Cyan, Turquoise, Forest Green, Silver, or Auto); the chosen colour propagates to the gift card visual and footer band; resets to occasion default with one click
 - **Preview image export** — after generating, capture and download a `.jpg` preview to share alongside the HTML (e.g. inline in an email)
-- One-click **Generate Card** downloads a ready-to-send `.html` file
+- **Two generate modes** — see below
 - Form state saved to `localStorage` — your work survives a page refresh
 - Zero server required — entirely client-side
 
@@ -31,15 +31,25 @@ The studio generates a fully **self-contained `.html` e-card file** that recipie
 
 ## Sharing the Card
 
-When you click **Generate Card** two things happen:
+The builder has two generate buttons:
 
-1. The interactive `.html` card is downloaded — this is what the recipient opens in their browser.
-2. A **delivery modal** appears with a captured preview image. Download the `.jpg` and include it inline in your email or message so the recipient sees something beautiful before clicking the attachment.
+### ✦ Generate Card (standard)
+Downloads the full interactive card. Recipients open it in any browser; the gift card PDF opens in a built-in page-by-page viewer powered by PDF.js.
+
+### 📱 iOS Backup (appears when a gift PDF is attached)
+Before downloading, the builder uses PDF.js to **render every page of the PDF to JPEG images** and bakes them directly into the card HTML. Recipients on iOS who open the attachment via Apple's Quick Look viewer (which executes no JavaScript) see the gift card pages displayed inline — no tap or interaction needed.
+
+Both modes open a **delivery modal** with a captured preview image. Download the `.jpg` and include it inline in your email so recipients see something beautiful before clicking the attachment.
 
 ```
-Email workflow:
-  Attach  →  ecard_birthday_Anna.html         (the interactive card)
-  Inline  →  ecard_birthday_Anna_preview.jpg  (so they see it before opening)
+Standard email workflow:
+  Attach  →  ecard_birthday_Anna.html          (the interactive card)
+  Inline  →  ecard_birthday_Anna_preview.jpg   (so they see it before opening)
+
+With iOS recipients in the mix:
+  Attach  →  ecard_birthday_Anna.html          (full card for Android / desktop)
+  Attach  →  ecard_birthday_Anna_iOS.html      (iOS Backup — works in Quick Look)
+  Inline  →  ecard_birthday_Anna_preview.jpg
 ```
 
 ---
@@ -91,8 +101,9 @@ When you click **Generate Card**, `buildCardHTML()` assembles a complete standal
 Each generated card is a **single self-contained `.html` file** containing:
 - All CSS and JS inline
 - The uploaded image as a base64 data URI
-- The gift card PDF as a base64 string, decoded and rendered at runtime using [PDF.js](https://mozilla.github.io/pdf.js/) (loaded from CDN)
-- Confetti or snowflake animations via pure CSS + JS
+- **Standard card**: the gift card PDF as a base64 string, decoded and rendered page-by-page at runtime using [PDF.js](https://mozilla.github.io/pdf.js/) (loaded from CDN; recipients need internet)
+- **iOS Backup card**: the gift card PDF pages pre-rendered to JPEG images by the builder and embedded as `<img>` tags — no CDN, no JS required in the card at all
+- Confetti elements pre-generated as **static HTML** with random inline styles; CSS `@keyframes` animates them — works in Apple's Quick Look viewer (which executes no JS)
 
 ### Languages
 
@@ -137,8 +148,10 @@ Contributions are very welcome! This is a personal family project that grew into
 - **Avoid template literals in `buildCardHTML()`** — the function generates HTML as a string that will be injected into a `<script>` context. Nested backtick template literals and literal `<script>` / `</script>` strings inside JS string values cause browser HTML parser failures. Use string concatenation (`+`) exclusively in that function.
 - **Escape `<script>` inside JS strings** — if you need to emit a `<script>` tag from JS, write it as `'\x3cscript'` to prevent the browser's HTML scanner from misinterpreting it.
 - **File inputs must be outside their clickable zones** — placing `<input type="file">` inside a clickable `<div>` causes a double file dialog. Always keep file inputs hidden and outside the zone, triggered via `.click()` only.
-- **PDF rendering** uses [PDF.js 3.11.174](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js) from cdnjs. The generated card loads it from CDN, so recipients need an internet connection to view embedded PDFs.
+- **PDF rendering (standard card)** uses [PDF.js 3.11.174](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js) from cdnjs loaded in the generated card. Recipients need internet to view embedded PDFs in standard mode.
+- **PDF rendering (iOS Backup)** uses the same PDF.js CDN loaded in the **builder's** `<head>`. `renderPdfPages()` rasterises each page to JPEG before the card is downloaded, so the output card needs no CDN or JS.
 - **Preview capture** uses [html2canvas 1.4.1](https://html2canvas.hertzen.com/) from cdnjs to snapshot the live preview panel into a JPEG at generation time.
+- **iOS Quick Look compatibility**: confetti is static HTML (not JS-generated); PDF modal uses `visibility` toggling (not `display:none/flex`, which silently fails on iOS Safari); scroll lock uses `position:fixed` on `body` (iOS ignores `overflow:hidden` on body).
 - **User inputs are HTML-escaped** before being embedded in the generated card to prevent XSS in the output file.
 
 ---
